@@ -1,59 +1,97 @@
-# List: Colors
-WHITE="\[\033[1;37m\]"
-BRIGHTGREEN="\[\033[1;32m\]"
-GREEN="\[\033[0;32m\]"
-RED="\[\033[0;31m\]"
-BRIGHTRED="\[\033[1;31m\]"
-CYAN="\[\033[0;36m\]"
-GRAY="\[\033[0;37m\]"
-BLUE="\[\033[0;34m\]"
-NOCOLOR="\[\033[0m\]"
+set -o vi
+set -o notify
 
-export PS1="${GREEN}\w${NOCOLOR}\n${GREEN}\u@\h >${NOCOLOR} "
+alias jgem='jruby -S gem'
 
-# Detect: OS Platform
-case `uname -s` in
-    "Linux")    MYOS="Linux";;
-    "SunOS")   MYOS="Solaris";;
-    "Darwin")   MYOS="OSX";;
-    "FreeBSD")  MYOS="FreeBSD";;
-    "CYGWIN_NT-5.1")    MYOS="Cygwin";;
-    *)  MYOS="Unknown";;
-esac
-
-if [ "$MYOS" == 'OSX' ]; then
-    export PERL5LIB=~/drw/5.12/lib/perl5
-    export FIG_HOME=/data/fighome
-    export FIG_REMOTE_URL=ftp://devnas/Builds/Fig/repos
-    export MVIM_PATH=/Applications/MacVim.app/Contents/MacOS
-    export JRUBY_PATH=/usr/local/jruby/bin
-    export OS_PATH=/opt/local/bin:$JRUBY_PATH:$RVM_PATH:$MVIM_PATH
-fi
+alias cdb='cd -'
+alias cdu='cd ..'
 
 if [ "$MYOS" == 'Linux' ]; then
-   export PERL5LIB=/home/buildadmin/perl/lib/perl5
-   
-   export SVN_HOME=/site/apps/subversion/bin
-   export GEM_PATH=/var/lib/gems/1.8/bin
-   export OS_PATH=$SVN_HOME:$GEM_PATH:$RVM_PATH
+   if [ "$USERNAME" != 'akomblevitz' ]; then
+      alias vim='vim -u /tmp/akomblevi/.vimrc'
+   fi
+   alias ack='ack-grep'
+   alias ls='ls -h --color'
+elif [ "$MYOS" == 'OSX' ]; then
+   alias ls='ls -hG'  # add colors for filetype recognition
+elif [ "$MYOS" == 'Cygwin' ]; then
+   alias ls='ls -h --color'
 fi
 
-export RVM_PATH=~/.rvm/bin
-export PATH=$OS_PATH:$RVM_PATH:$PATH
+alias psa='ps -ef | ack --noenv --nocolor'
 
-export HISTCONTROL=erasedups
-export FIGNORE=.svn
-export EDITOR=vim
-export FIG_HOME=~/.fighome
-export FIG_REMOTE_URL=ftp://devnas/Builds/Fig/repos
-export TMP=~/tmp/swp #swap file location for vim
+alias vi='vim'
+alias df='df -h'
+alias mkdp='mkdir -p'
+alias utar='tar xvzf'
+alias ifc='/sbin/ifconfig'
+alias sx='ssh -X'
+alias s='ssh '
 
-# Source in .bashrc
-if [ -f /tmp/akomblevi/.bashrc ] && [ "$MYOS" == 'Linux' ] && [ `whoami` != "akomblevitz" ]; then
-    . /tmp/akomblevi/.bashrc
-else
-    . ~/.bashrc
-fi
+alias l='ls'
+alias ll='ls -l'
+alias la='ls -Al'          # show hidden files
+alias lx='ls -lXB'         # sort by extension
+alias lk='ls -lSr'         # sort by size, biggest last
+alias lc='ls -ltcr'        # sort by and show change time, most recent last
+alias lu='ls -ltur'        # sort by and show access time, most recent last
+alias lt='ls -ltr'         # sort by date, most recent last
+alias lm='ls -alh |more'    # pipe through 'more'
+alias lr='ls -alRh'          # recursive ls
+alias tree='tree -Csu'     # nice alternative to 'recursive ls'
 
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-rvm ruby-1.9.2-p180@des
+alias lxm='ls -lXB | more'         # sort by extension
+alias lkm='ls -lSr | more'         # sort by size, biggest last
+alias lcm='ls -ltcr | more'        # sort by and show change time, most recent last
+alias lum='ls -ltur | more'        # sort by and show access time, most recent last
+alias ltm='ls -ltr | more'         # sort by date, most recent last
+alias lrm='ls -alRh | more'          # recursive ls
+
+alias rmi='rm -vi'
+alias cpi='cp -vi'
+alias mvi='mv -vi'
+
+alias sub='su - buildadmin'
+alias sur='sudo su - root'
+
+alias r='rvm '
+alias rg='rvm gemset '
+alias ru='rvm use '
+alias rl='rvm list '
+alias rr='rvm remove '
+alias rgl='rvm gemset list '
+alias rgu='rvm gemset use '
+alias rgd='rvm gemset delete '
+alias gl='gem list '
+alias gi='gem install '
+
+# swap 2 filenames around
+swap ()
+{
+    local TMPFILE=tmp.$$
+    mv "$1" $TMPFILE
+    mv "$2" "$1"
+    mv $TMPFILE "$2"
+}
+
+# Pretty prints your PATH. One entry per line.
+ppath () {
+    echo $PATH | perl -a -n -F/:/ -e 'foreach (@F) { print "$_\n" }'
+}
+
+# Execute a command as root via sudo
+surc () {
+    sudo su -c "$1" - root
+}
+
+# Make it easier to mess with $PATH (stolen from Red Hat /etc/profile)
+# Helps to keep duplicate pathnames from showing up in your path.
+pathmunge () {
+        if ! echo $PATH | egrep -s "(^|:)$1($|:)" > /dev/null ; then
+           if [ "$2" = "after" ] ; then
+              export PATH=$PATH:$1
+           else
+              export PATH=$1:$PATH
+           fi
+        fi
+}
