@@ -27,6 +27,7 @@ alias utar='tar xvzf'
 alias ifc='/sbin/ifconfig'
 alias sx='ssh -X'
 alias s='ssh '
+alias ='ssh -t /home/srv_comply/elliot/bin/sup-chicomply01/login-shell-as-elliot'
 
 alias l='ls'
 alias ll='ls -l'
@@ -64,6 +65,11 @@ alias rgu='rvm gemset use '
 alias rgd='rvm gemset delete '
 alias gl='gem list '
 alias gi='gem install '
+
+#login to service account with my own dotfiles and custom home directory
+ss() {
+    ssh -t "$1"@"$2" ~"$1"/akomblevitz/bin/"$2"/login_shell_as_akomblevitz.sh
+}
 
 # swap 2 filenames around
 swap ()
