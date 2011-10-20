@@ -67,7 +67,7 @@ alias gi='gem install '
 
 #login to service account with my own dotfiles and custom home directory
 ss() {
-    ssh -t "$1"@"$2" ~"$1"/akomblevitz/dotfiles/bin/"$2"/login_shell_as_akomblevitz.sh
+    ssh -t "$1"@"$2" ~"$1"/akomblevitz/dotfiles/bin/login_shell_as_akomblevitz.sh
 }
 
 # swap 2 filenames around
