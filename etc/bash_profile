@@ -13,47 +13,58 @@ export PS1="${GREEN}\w${NOCOLOR}\n${GREEN}\u@\h >${NOCOLOR} "
 
 # Detect: OS Platform
 case `uname -s` in
-    "Linux")    MYOS="Linux";;
-    "SunOS")   MYOS="Solaris";;
-    "Darwin")   MYOS="OSX";;
-    "FreeBSD")  MYOS="FreeBSD";;
-    "CYGWIN_NT-5.1")    MYOS="Cygwin";;
-    *)  MYOS="Unknown";;
+  "Linux")            MYOS="Linux";;
+  "SunOS")            MYOS="Solaris";;
+  "Darwin")           MYOS="OSX";;
+  "FreeBSD")          MYOS="FreeBSD";;
+  "CYGWIN_NT-5.1")    MYOS="Cygwin";;
+  *)                  MYOS="Unknown";;
 esac
 
 if [ "$MYOS" == 'OSX' ]; then
-    export PERL5LIB=~/drw/5.12/lib/perl5
-    export FIG_HOME=/data/fighome
-    export FIG_REMOTE_URL=ftp://devnas/Builds/Fig/repos
-    export MVIM_PATH=/Applications/MacVim.app/Contents/MacOS
-    export JRUBY_PATH=/usr/local/jruby/bin
-    export OS_PATH=/opt/local/bin:$JRUBY_PATH:$RVM_PATH:$MVIM_PATH
+  export RVM_PATH=~/.rvm/bin
+  export PERL5LIB=~/drw/5.12/lib/perl5
+  export MVIM_PATH=/Applications/MacVim.app/Contents/MacOS
+  export JRUBY_PATH=/usr/local/jruby/bin
+  export OS_PATH=/opt/local/bin:$JRUBY_PATH:$RVM_PATH:$MVIM_PATH
 fi
-
+ 
 if [ "$MYOS" == 'Linux' ]; then
-   export PERL5LIB=/home/buildadmin/perl/lib/perl5
-   
-   export SVN_HOME=/site/apps/subversion/bin
-   export GEM_PATH=/var/lib/gems/1.8/bin
-   export OS_PATH=$SVN_HOME:$GEM_PATH:$RVM_PATH
+  # Explicitly path to the buildadmin home because my HOME env var will be a subdir.
+  if [ `whoami` == 'buildadmin' ]; then
+    export PERL5LIB=/home/buildadmin/perl/lib/perl5
+    export RVM_PATH=/home/buildadmin/.rvm/bin
+    export SVN_HOME=/site/apps/subversion/bin
+    export OS_PATH=$SVN_HOME:$RVM_PATH
+
+    . /home/buildadmin/.bash_profile
+
+    [[ -s "/home/buildadmin/.rvm/scripts/rvm" ]] && source "/home/buildadmin/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+  else
+    export RVM_PATH=~/.rvm/bin
+    export FIG_HOME=~/.fighome
+    export FIG_REMOTE_URL=ftp://devnas/Builds/Fig/repos
+    export TMP=~/tmp/swp #swap file location for vim
+    export SVN_HOME=/usr/bin/svn
+    export OS_PATH=$SVN_PATH:$RVM_PATH
+
+    [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+  fi
+else
+  export RVM_PATH=~/.rvm/bin
+  export FIG_HOME=~/.fighome
+  export FIG_REMOTE_URL=ftp://devnas/Builds/Fig/repos
+  export TMP=~/tmp/swp #swap file location for vim
+  export OS_PATH=$RVM_PATH
+
+  [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+  rvm ruby-1.9.2-p180@des
 fi
 
-export RVM_PATH=~/.rvm/bin
-export PATH=$OS_PATH:$RVM_PATH:$PATH
-
+export PATH=$OS_PATH:$PATH
 export HISTCONTROL=erasedups
 export FIGNORE=.svn
 export EDITOR=vim
-export FIG_HOME=~/.fighome
-export FIG_REMOTE_URL=ftp://devnas/Builds/Fig/repos
-export TMP=~/tmp/swp #swap file location for vim
 
-# Source in .bashrc
-if [ -f /tmp/akomblevi/.bashrc ] && [ "$MYOS" == 'Linux' ] && [ `whoami` != "akomblevitz" ]; then
-    . /tmp/akomblevi/.bashrc
-else
-    . ~/.bashrc
-fi
+. ~/.bashrc
 
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-rvm ruby-1.9.2-p180@des
