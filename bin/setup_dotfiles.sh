@@ -23,6 +23,10 @@ if [[ -e etc ]]; then
     mv -v etc ~/original-dotfiles || exit 1
 fi
 
+if [[ `whoami` != 'akomblevitz' &&  -e /home/`whoami`/.rvm ]]; then
+    ln -vs /home/`whoami`/.rvm .rvm
+fi
+
 ln -vs dotfiles/etc     etc           || exit 1
 ln -vs dotfiles/bin     bin           || exit 1
 

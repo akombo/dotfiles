@@ -1,99 +1,36 @@
-set -o vi
-set -o notify
+#!/usr/bin/env bash
 
-alias jgem='jruby -S gem'
+echo 'Changing current directory to home.'
+cd || exit 1
 
-alias cdb='cd -'
-alias cdu='cd ..'
-
-if [ "$MYOS" == 'Linux' ]; then
-   alias ack='ack-grep'
-   alias ls='ls --color'
-elif [ "$MYOS" == 'OSX' ]; then
-   alias ls='ls -G'  # add colors for filetype recognition
-elif [ "$MYOS" == 'Cygwin' ]; then
-   alias ls='ls --color'
+if [[ ! -e ~/original-dotfiles ]]; then
+    echo 'Creating ~/original-dotfiles.'
+    mkdir ~/original-dotfiles || exit 1
 fi
 
-alias psa='ps -ef | ack --noenv --nocolor'
+for FILE in ~/.bash* ~/.vim*; do
+    if [[ -f "$FILE" ]]; then
+        BASENAME="${FILE##*/}"
+        mv -v "$FILE" ~/original-dotfiles/"${BASENAME#.}" || exit 1
+    fi
+done
 
-alias vi='vim'
-alias df='df -h'
-alias mkdp='mkdir -p'
-alias utar='tar xvzf'
-alias ifc='/sbin/ifconfig'
-alias sx='ssh -X'
-alias s='ssh '
+if [[ -e bin ]]; then
+    mv -v bin ~/original-dotfiles || exit 1
+fi
 
-alias l='ls'
-alias ll='ls -l'
-alias la='ls -Alh'          # show hidden files
-alias lx='ls -lXB'         # sort by extension
-alias lk='ls -lSr'         # sort by size, biggest last
-alias lc='ls -ltcr'        # sort by and show change time, most recent last
-alias lu='ls -ltur'        # sort by and show access time, most recent last
-alias lt='ls -ltr'         # sort by date, most recent last
-alias lm='ls -alh |more'    # pipe through 'more'
-alias lr='ls -alRh'          # recursive ls
-alias tree='tree -Csu'     # nice alternative to 'recursive ls'
+if [[ -e etc ]]; then
+    mv -v etc ~/original-dotfiles || exit 1
+fi
 
-alias lxm='ls -lXB | more'         # sort by extension
-alias lkm='ls -lSr | more'         # sort by size, biggest last
-alias lcm='ls -ltcr | more'        # sort by and show change time, most recent last
-alias lum='ls -ltur | more'        # sort by and show access time, most recent last
-alias ltm='ls -ltr | more'         # sort by date, most recent last
-alias lrm='ls -alRh | more'          # recursive ls
+if [[ `whoami` != 'akomblevitz' &&  -e /home/`whoami`/.rvm ]]; then
+    ln -vs /home/`whoami`/.rvm .rvm
+fi
 
-alias rmi='rm -vi'
-alias cpi='cp -vi'
-alias mvi='mv -vi'
+ln -vs dotfiles/etc     etc           || exit 1
+ln -vs dotfiles/bin     bin           || exit 1
 
-alias sub='su - buildadmin'
-alias sur='sudo su - root'
-
-alias r='rvm '
-alias rg='rvm gemset '
-alias ru='rvm use '
-alias rl='rvm list '
-alias rr='rvm remove '
-alias rgl='rvm gemset list '
-alias rgu='rvm gemset use '
-alias rgd='rvm gemset delete '
-alias gl='gem list '
-alias gi='gem install '
-
-#login to service account with my own dotfiles and custom home directory
-ss() {
-    ssh -t "$1"@"$2" ~"$1"/akomblevitz/dotfiles/bin/login_shell_as_akomblevitz.sh
-}
-
-# swap 2 filenames around
-swap ()
-{
-    local TMPFILE=tmp.$$
-    mv "$1" $TMPFILE
-    mv "$2" "$1"
-    mv $TMPFILE "$2"
-}
-
-# Pretty prints your PATH. One entry per line.
-ppath () {
-    echo $PATH | perl -a -n -F/:/ -e 'foreach (@F) { print "$_\n" }'
-}
-
-# Execute a command as root via sudo
-surc () {
-    sudo su -c "$1" - root
-}
-
-# Make it easier to mess with $PATH (stolen from Red Hat /etc/profile)
-# Helps to keep duplicate pathnames from showing up in your path.
-pathmunge () {
-        if ! echo $PATH | egrep -s "(^|:)$1($|:)" > /dev/null ; then
-           if [ "$2" = "after" ] ; then
-              export PATH=$PATH:$1
-           else
-              export PATH=$1:$PATH
-           fi
-        fi
-}
+ln -vs etc/bash_profile .bash_profile || exit 1
+ln -vs etc/bashrc       .bashrc       || exit 1
+ln -vs etc/vimrc        .vimrc        || exit 1
+ln -vs etc/vim          .vim          || exit 1
