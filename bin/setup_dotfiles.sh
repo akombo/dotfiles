@@ -15,6 +15,14 @@ for FILE in ~/.bash* ~/.vim*; do
     fi
 done
 
+if [[ -e bin ]]; then
+    mv -v bin ~/original-dotfiles || exit 1
+fi
+
+if [[ -e etc ]]; then
+    mv -v etc ~/original-dotfiles || exit 1
+fi
+
 ln -vs dotfiles/etc     etc           || exit 1
 ln -vs dotfiles/bin     bin           || exit 1
 
