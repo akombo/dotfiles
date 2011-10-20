@@ -7,9 +7,6 @@ alias cdb='cd -'
 alias cdu='cd ..'
 
 if [ "$MYOS" == 'Linux' ]; then
-   if [ "$USERNAME" != 'akomblevitz' ]; then
-      alias vim='vim -u /tmp/akomblevi/.vimrc'
-   fi
    alias ack='ack-grep'
    alias ls='ls --color'
 elif [ "$MYOS" == 'OSX' ]; then
