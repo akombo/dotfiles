@@ -38,7 +38,7 @@ if [ "$MYOS" == 'Linux' ]; then
   # Explicitly path to the buildadmin home because my HOME env var will be a subdir.
   echo 'We are on Linux...'
   if [ `whoami` == 'buildadmin' ]; then
-    echo '...and we are not buildadmin.'
+    echo '...and we are buildadmin.'
     export PERL5LIB=/home/buildadmin/perl/lib/perl5
     export RVM_PATH=/home/buildadmin/.rvm/bin
     export SVN_HOME=/site/apps/subversion/bin
