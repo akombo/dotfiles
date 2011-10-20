@@ -11,11 +11,11 @@ if [ "$MYOS" == 'Linux' ]; then
       alias vim='vim -u /tmp/akomblevi/.vimrc'
    fi
    alias ack='ack-grep'
-   alias ls='ls -h --color'
+   alias ls='ls --color'
 elif [ "$MYOS" == 'OSX' ]; then
-   alias ls='ls -hG'  # add colors for filetype recognition
+   alias ls='ls -G'  # add colors for filetype recognition
 elif [ "$MYOS" == 'Cygwin' ]; then
-   alias ls='ls -h --color'
+   alias ls='ls --color'
 fi
 
 alias psa='ps -ef | ack --noenv --nocolor'
@@ -30,7 +30,7 @@ alias s='ssh '
 
 alias l='ls'
 alias ll='ls -l'
-alias la='ls -Al'          # show hidden files
+alias la='ls -Alh'          # show hidden files
 alias lx='ls -lXB'         # sort by extension
 alias lk='ls -lSr'         # sort by size, biggest last
 alias lc='ls -ltcr'        # sort by and show change time, most recent last
