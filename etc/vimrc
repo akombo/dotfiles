@@ -3,6 +3,13 @@
 " as well just use vi :-)
 set nocompatible
 
+" displays invisible characters
+set list
+set listchars=tab:»-,trail:·,nbsp:␣
+
+" make sure there are three lines above and below at all times
+set scrolloff=3
+
 " turn off pattern match highlighting
 "set nohls
 
