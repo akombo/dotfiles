@@ -12,6 +12,7 @@ set scrolloff=3
 
 " turn off pattern match highlighting
 "set nohls
+set hlsearch
 
 " turn on line numbers
 set number
@@ -69,10 +70,13 @@ noremap! <C-l> <esc>
 lnoremap <C-l> <esc>
 " set CTRL-k to pastetoggle
 set pastetoggle=<C-k>
+" Toggle search highlighting
+noremap <F3> :set hlsearch! hlsearch?<CR>
+noremap <F2> :NERDTree<CR>
 
 " change the location of swap and backup files
-set backupdir=~/vimtmp,.
-set directory=~/vimtmp,.
+set backupdir=~/.vimtmp,.
+set directory=~/.vimtmp,.
 
 set ttyfast " u got a fast terminal
 set ttyscroll=3
