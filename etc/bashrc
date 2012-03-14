@@ -66,6 +66,8 @@ alias rgd='rvm gemset delete '
 alias gl='gem list '
 alias gi='gem install '
 
+alias dev_fig='ruby -I/Users/akomblevitz/github/fig/lib /Users/akomblevitz/github/fig/bin/fig '
+
 #login to service account with my own dotfiles and custom home directory
 ss() {
     ssh -t "$1"@"$2" ~"$1"/akomblevitz/dotfiles/bin/login_shell_as_akomblevitz.sh
