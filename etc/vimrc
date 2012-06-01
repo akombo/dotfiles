@@ -12,7 +12,7 @@ set scrolloff=3
 
 " turn off pattern match highlighting
 "set nohls
-set hlsearch
+"set hlsearch
 
 " turn on line numbers
 set number

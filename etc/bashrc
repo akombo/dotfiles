@@ -104,3 +104,6 @@ pathmunge () {
         fi
 }
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+alias factivate='/Users/akomblevitz/fabric_env/bin/activate'
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting

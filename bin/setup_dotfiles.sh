@@ -35,3 +35,4 @@ ln -vs etc/bashrc       .bashrc       || exit 1
 ln -vs etc/vimrc        .vimrc        || exit 1
 ln -vs etc/vim          .vim          || exit 1
 ln -vs etc/.gitconfig   .gitconfig    || exit 1
+ln -vs etc/subversion_config .subversion/config || exit 1
