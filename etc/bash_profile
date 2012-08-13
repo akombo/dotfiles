@@ -60,6 +60,7 @@ export FIG_REMOTE_URL=ftp://devnas/Builds/Fig/repos
 export HISTCONTROL=erasedups
 export FIGNORE=.svn
 export EDITOR=vim
+export PATH=$HOME/bin:$PATH
 
 . ~/.bashrc
 
