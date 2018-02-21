@@ -15,48 +15,7 @@ NOCOLOR="\[\033[0m\]"
 
 export PS1="\n${GREEN}\w${NOCOLOR}\n${GREEN}\u@\h >${NOCOLOR} "
 
-# Detect: OS Platform
-case `uname -s` in
-  "Linux")            MYOS="Linux";;
-  "SunOS")            MYOS="Solaris";;
-  "Darwin")           MYOS="OSX";;
-  "FreeBSD")          MYOS="FreeBSD";;
-  "CYGWIN_NT-5.1")    MYOS="Cygwin";;
-  *)                  MYOS="Unknown";;
-esac
-
-if [ "$MYOS" == 'OSX' ]; then
-  TEMP_HOME=/Users/akomblevitz
-
-  if [ `whoami` == 'buildadmin' ]; then
-    TEMP_HOME=/Users/buildadmin
-  else
-    export FIG_HOME=$TEMP_HOME/.fighome
-  fi
-
-  export PATH=/opt/local/bin:$PATH
-fi
-
-if [ "$MYOS" == 'Linux' ]; then
-  TEMP_HOME=/home/akomblevitz
-
-  if [ `whoami` == 'buildadmin' ]; then
-    TEMP_HOME=/home/buildadmin
-
-    export PERL5LIB=$TEMP_HOME/perl/lib/perl5
-    export SVN_HOME=/site/apps/subversion/bin
-
-    . /home/buildadmin/.bash_profile
-  else
-    export FIG_HOME=$TEMP_HOME/.fighome
-    export SVN_HOME=/usr/bin/svn
-  fi
-
-fi
-
-export TMP=$TEMP_HOME/vimtmp/swp #swap file location for vim
-export rvm_path=$TEMP_HOME/.rvm
-export FIG_REMOTE_URL=ftp://devnas/Builds/Fig/repos
+export TMP=$HOME/vimtmp/swp #swap file location for vim
 export HISTCONTROL=erasedups
 export FIGNORE=.svn
 export EDITOR=vim
@@ -64,4 +23,3 @@ export PATH=$HOME/bin:$PATH
 
 . ~/.bashrc
 
-[[ -s "$TEMP_HOME/.rvm/scripts/rvm" ]] && source "$TEMP_HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*

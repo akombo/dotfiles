@@ -5,13 +5,9 @@
 set -o vi
 set -o notify
 
-alias jgem='jruby -S gem'
-
 alias cdb='cd -'
 alias cdu='cd ..'
 alias cdr='cd .. && cd -'
-
-alias clj='java -cp ~/clojure-1.4.0/clojure-1.4.0.jar clojure.main'
 
 if [ "$MYOS" == 'Linux' ]; then
    alias ack='ack-grep'
@@ -26,50 +22,23 @@ alias psa='ps -ef | ack --noenv --nocolor'
 
 alias vi='vim'
 alias df='df -h'
-alias mkdp='mkdir -p'
-alias utar='tar xvzf'
 alias ifc='/sbin/ifconfig'
-alias sx='ssh -X'
-alias s='ssh '
 
 alias l='ls'
-alias ll='ls -l'
+alias ll='ls -lh'
 alias la='ls -Alh'          # show hidden files
 alias lx='ls -lXB'         # sort by extension
-alias lk='ls -lSr'         # sort by size, biggest last
+alias lk='ls -lSrh'         # sort by size, biggest last
 alias lc='ls -ltcr'        # sort by and show change time, most recent last
 alias lu='ls -ltur'        # sort by and show access time, most recent last
 alias lt='ls -ltr'         # sort by date, most recent last
-alias lm='ls -alh |more'    # pipe through 'more'
 alias lr='ls -alRh'          # recursive ls
 alias tree='tree -Csu'     # nice alternative to 'recursive ls'
 
-alias lxm='ls -lXB | more'         # sort by extension
-alias lkm='ls -lSr | more'         # sort by size, biggest last
-alias lcm='ls -ltcr | more'        # sort by and show change time, most recent last
-alias lum='ls -ltur | more'        # sort by and show access time, most recent last
-alias ltm='ls -ltr | more'         # sort by date, most recent last
-alias lrm='ls -alRh | more'          # recursive ls
-
-alias rmi='rm -vi'
-alias cpi='cp -vi'
-alias mvi='mv -vi'
-
-alias r='rvm '
-alias rg='rvm gemset '
-alias ru='rvm use '
-alias rl='rvm list '
-alias rr='rvm remove '
-alias rgl='rvm gemset list '
-alias rgu='rvm gemset use '
-alias rgd='rvm gemset delete '
-alias gl='gem list '
-alias gi='gem install '
-
 #login to service account with my own dotfiles and custom home directory
-ss() {
-    ssh -t "$1"@"$2" ~"$1"/akomblevitz/dotfiles/bin/login_shell_as_akomblevitz.sh
-}
+#ss() {
+#    ssh -t "$1"@"$2" ~"$1"/akomblevitz/dotfiles/bin/login_shell_as_akomblevitz.sh
+#}
 
 # swap 2 filenames around
 swap ()
@@ -85,11 +54,6 @@ ppath () {
     echo $PATH | perl -a -n -F/:/ -e 'foreach (@F) { print "$_\n" }'
 }
 
-# Execute a command as root via sudo
-surc () {
-    sudo su -c "$1" - root
-}
-
 # Make it easier to mess with $PATH (stolen from Red Hat /etc/profile)
 # Helps to keep duplicate pathnames from showing up in your path.
 pathmunge () {
@@ -101,16 +65,4 @@ pathmunge () {
            fi
         fi
 }
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-alias factivate='/Users/akomblevitz/fabric_env/bin/activate'
-
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-
-export RBENV_ROOT="${HOME}/.rbenv"
-
-# Rbenv
-if [ -d "${RBENV_ROOT}" ]; then
-  export PATH="${RBENV_ROOT}/bin:${PATH}"
-  eval "$(rbenv init -)"
-fi
 
